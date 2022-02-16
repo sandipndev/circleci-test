@@ -10,7 +10,7 @@ jobs:
           path: ~/app
       - run: echo "Updated locale..." > locales
       - persist_to_workspace:
-          root: app
+          root: .
           paths:
             - locales
 
