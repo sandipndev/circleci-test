@@ -28,7 +28,7 @@ jobs:
       - persist_to_workspace:
           root: android
           paths:
-            - android/*
+            - "*"
 
   build-ios:
     docker:
