@@ -22,23 +22,35 @@ jobs:
       - checkout:
           path: ~/app
       - attach_workspace:
-          at: /tmp/locale
+          at: /tmp/prev
       - run: find /tmp/locale -type f -exec cat {} \;
       - run: echo "Android Build" > android/1
+      - persist_to_workspace:
+          root: android
+          paths:
+            - android/*
 
   build-ios:
     docker:
       - image: cimg/base:2022.02-20.04
     steps:
-      - checkout
+      - checkout:
+          path: ~/app
       - run: echo "iOS Building..."
   
   release:
+    working_directory: ~/app
     docker:
       - image: cimg/base:2022.02-20.04
     steps:
       - checkout
-      - run: echo "Release..."
+      - checkout:
+          path: ~/app
+      - attach_workspace:
+          at: /tmp/prev
+      - run: echo "Releasing"
+      - run: ls -lR /tmp/prev
+      - run: find /tmp/prev -type f -exec cat {} \;
 
 workflows:
   version: 2
