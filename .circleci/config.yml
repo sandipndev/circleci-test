@@ -1,20 +1,55 @@
 version: 2.1
 
 jobs:
-  build:
+  update-locale:
     docker:
       - image: cimg/base:2022.02-20.04
     steps:
       - checkout
-      - run: echo "Testing..."
+      - run: echo "Update locale..."
+
+  build-android:
+    docker:
+      - image: cimg/base:2022.02-20.04
+    steps:
+      - checkout
+      - run: echo "Android Building..."
+
+  build-ios:
+    docker:
+      - image: cimg/base:2022.02-20.04
+    steps:
+      - checkout
+      - run: echo "iOS Building..."
+  
+  release:
+    docker:
+      - image: cimg/base:2022.02-20.04
+    steps:
+      - checkout
+      - run: echo "Release..."
 
 workflows:
   version: 2
   test:
     jobs:
-      - build:
+      - hold:
+          type: approval
           filters:
             tags:
                only: /^(?!v).*/
             branches:
               ignore: /.*/
+      - update-locale:
+          requires:
+            - hold
+      - build-android:
+          requires:
+            - update-locale
+      - build-ios:
+          requires:
+            - update-locale
+      - release:
+          requires:
+            - build-ios
+            - build-android
