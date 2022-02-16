@@ -26,9 +26,9 @@ jobs:
       - run: find /tmp/prev -type f -exec cat {} \;
       - run: echo "Android Build" > android/1
       - persist_to_workspace:
-          root: android
+          root: .
           paths:
-            - "*"
+            - android/*
 
   build-ios:
     docker:
