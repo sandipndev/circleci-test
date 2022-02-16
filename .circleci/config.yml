@@ -23,7 +23,7 @@ jobs:
           path: ~/app
       - attach_workspace:
           at: /tmp/prev
-      - run: find /tmp/locale -type f -exec cat {} \;
+      - run: find /tmp/prev -type f -exec cat {} \;
       - run: echo "Android Build" > android/1
       - persist_to_workspace:
           root: android
