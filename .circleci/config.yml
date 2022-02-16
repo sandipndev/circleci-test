@@ -2,18 +2,29 @@ version: 2.1
 
 jobs:
   update-locale:
+    working_directory: ~/app
     docker:
       - image: cimg/base:2022.02-20.04
     steps:
-      - checkout
-      - run: echo "Update locale..."
+      - checkout:
+          path: ~/app
+      - run: echo "Updated locale..." > locales
+      - persist_to_workspace:
+          root: app
+          paths:
+            - locales
 
   build-android:
+    working_directory: ~/app
     docker:
       - image: cimg/base:2022.02-20.04
     steps:
-      - checkout
-      - run: echo "Android Building..."
+      - checkout:
+          path: ~/app
+      - attach_workspace:
+          at: /tmp/locale
+      - run: ls /tmp/locale
+      - run: echo "Android Build" > android/1
 
   build-ios:
     docker:
