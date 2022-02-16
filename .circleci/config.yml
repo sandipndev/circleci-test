@@ -43,13 +43,33 @@ workflows:
       - update-locale:
           requires:
             - hold
+          filters:
+            tags:
+               only: /^(?!v).*/
+            branches:
+              ignore: /.*/
       - build-android:
           requires:
             - update-locale
+          filters:
+            tags:
+               only: /^(?!v).*/
+            branches:
+              ignore: /.*/
       - build-ios:
           requires:
             - update-locale
+          filters:
+            tags:
+               only: /^(?!v).*/
+            branches:
+              ignore: /.*/
       - release:
           requires:
             - build-ios
             - build-android
+          filters:
+            tags:
+               only: /^(?!v).*/
+            branches:
+              ignore: /.*/
