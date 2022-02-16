@@ -23,7 +23,7 @@ jobs:
           path: ~/app
       - attach_workspace:
           at: /tmp/locale
-      - run: ls /tmp/locale
+      - run: find /tmp/locale -type f -exec cat {} \;
       - run: echo "Android Build" > android/1
 
   build-ios:
